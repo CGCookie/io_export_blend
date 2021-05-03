@@ -53,9 +53,9 @@ This add-on also provides the ability to export selected nodes to a separate `.b
 
 ## Known issues
 
-Currently, when enabling the *Mark as Asset* option, the text size of menu items in Blender's UI gets much larger. This is related to [T83896](https://developer.blender.org/T83896) and should [hopefully] be fixed prior to the release of Blender 2.93.
-
-Also, if you try to export a node that is within an existing node group, this add-on doesn't quite function as expected. Currently, it clears out just the other nodes within that group, but nothing in the group's parent tree.
+  * Currently breaks for Blender versions less than 2.93. Needs a check for Blender version (and disable Asset marking if <2.93)
+  * Currently, when enabling the *Mark as Asset* option, the text size of menu items in Blender's UI gets much larger. This is related to [T83896](https://developer.blender.org/T83896) and should [hopefully] be fixed prior to the release of Blender 2.93.
+  * If you try to export a node that is within an existing node group, this add-on doesn't quite function as expected. Currently, it clears out just the other nodes within that group, but nothing in the group's parent tree.
 
 ## Wishlist
 
