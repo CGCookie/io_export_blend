@@ -22,7 +22,7 @@ bl_info = {
     "name": "Export .blend",
     "author": "Jason van Gumster (Fweeb)",
     "version": (0, 9),
-    "blender": (2, 93, 0),
+    "blender": (2, 83, 0),
     "location": "File > Export > Blender (.blend)/Outliner > Context Menu > Export to .blend",
     "description": "Exports all or some datablocks to a separate .blend file",
     "warning": "",
@@ -177,11 +177,12 @@ class ExportBlenderObjects(Operator, ExportHelper):
         default="export_collection"
     )
 
-    mark_asset: BoolProperty(
-        name="Mark as Asset",
-        description="Mark selected objects as assets for visibility in the Asset Browser",
-        default=False
-    )
+    if bpy.app.version >= (2, 93, 0):
+        mark_asset: BoolProperty(
+            name="Mark as Asset",
+            description="Mark selected objects as assets for visibility in the Asset Browser",
+            default=False
+        )
 
     backlink: BoolProperty(
         name="Backlink",
@@ -199,7 +200,8 @@ class ExportBlenderObjects(Operator, ExportHelper):
             box.prop(self, "export_as_collection")
             if self.export_as_collection:
                 box.prop(self, "collection_name", icon="COLLECTION_NEW", icon_only=True)
-            box.prop(self, "mark_asset")
+            if bpy.app.version >= (2, 93, 0):
+                box.prop(self, "mark_asset")
             box.prop(self, "backlink")
 
     def execute(self, context):
@@ -209,9 +211,13 @@ class ExportBlenderObjects(Operator, ExportHelper):
             "export_selected": self.export_selected,
             "export_as_collection": self.export_as_collection,
             "collection_name": self.collection_name,
-            "mark_asset": self.mark_asset,
             "backlink": self.backlink
         }
+        if bpy.app.version >= (2, 93, 0):
+            export_settings["mark_asset"] = self.mark_asset
+        else:
+            export_settings["mark_asset"] = False
+
         return export_blend_objects(context, export_settings)
 
 
@@ -229,11 +235,12 @@ class ExportBlenderCollection(Operator, ExportHelper):
     )
 
     # Operator properties
-    mark_asset: BoolProperty(
-        name="Mark as Asset",
-        description="Mark selected collection as an asset for visibility in the Asset Browser",
-        default=False
-    )
+    if bpy.app.version >= (2, 93, 0):
+        mark_asset: BoolProperty(
+            name="Mark as Asset",
+            description="Mark selected collection as an asset for visibility in the Asset Browser",
+            default=False
+        )
 
     def execute(self, context):
         export_settings = {
@@ -242,9 +249,13 @@ class ExportBlenderCollection(Operator, ExportHelper):
             "export_selected": True,
             "export_as_collection": True,
             "collection_name": context.selected_ids[0].name, #XXX Assumes only one collection is selected
-            "mark_asset": self.mark_asset,
             "backlink": False
         }
+        if bpy.app.version >= (2, 93, 0):
+            export_settings["mark_asset"] = self.mark_asset
+        else:
+            export_settings["mark_asset"] = False
+
         return export_blend_objects(context, export_settings)
 
 
