@@ -50,7 +50,7 @@ def actually_export(export_scene, filepath):
 
 
 def export_blend_objects(context, export_settings):
-    print("Exporting objects to .blend...") #XXX Eventually should support other assets like materials and node groups
+    print("Exporting objects to .blend...") 
     objects = []
     object_names = []
     if export_settings["export_selected"]:
