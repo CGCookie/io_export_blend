@@ -26,7 +26,8 @@ bl_info = {
     "location": "File > Export > Blender (.blend)/Outliner > Context Menu > Export to .blend",
     "description": "Exports all or some datablocks to a separate .blend file",
     "warning": "",
-    "doc_url": "",
+    "doc_url": "https://github.com/CGCookie/io_export_blend",
+    "tracker_url": "https://github.com/CGCookie/io_export_blend/issues",
     "category": "Import-Export",
 }
 
