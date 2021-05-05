@@ -318,7 +318,7 @@ def register():
 def unregister():
     bpy.utils.unregister_class(ExportBlenderObjects)
     bpy.utils.unregister_class(ExportBlenderCollection)
-    bpy.utils.ynregister_class(ExportBlenderNodes)
+    bpy.utils.unregister_class(ExportBlenderNodes)
     bpy.types.TOPBAR_MT_file_export.remove(menu_func_export)
     bpy.types.OUTLINER_MT_object.remove(menu_func_export)
     bpy.types.OUTLINER_MT_collection.remove(menu_func_export)
