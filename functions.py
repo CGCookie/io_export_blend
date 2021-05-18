@@ -20,7 +20,7 @@ def export_blend_objects(context, export_settings):
     print("Exporting objects to .blend...")
     objects = []
     object_names = []
-    if export_settings["export_selected"]:
+    if export_settings["export_selected"] and not export_settings["is_collection"]:
         for ob in context.selected_objects:
             objects.append(ob)
             object_names.append(ob.name)
@@ -65,8 +65,12 @@ def export_blend_objects(context, export_settings):
             linkpath = export_settings["filepath"] + "\\Collection\\" + export_settings["collection_name"]
             linkdir = export_settings["filepath"] + "\\Collection\\"
             linkcol = export_settings["collection_name"]
+
+            # Remove objects from scene so they can be replaced
             for obname in object_names:
                 bpy.data.objects.remove(bpy.data.objects[obname], do_unlink=True)
+
+            # Do the actual replacing thing
             bpy.ops.wm.link(
                 filepath=linkpath,
                 directory=linkdir,

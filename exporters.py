@@ -104,6 +104,12 @@ class ExportBlenderCollection(Operator, ExportHelper):
             default=False
         )
 
+    backlink: BoolProperty(
+        name="Backlink",
+        description="Replace selection with a link to the exported object",
+        default=False
+    )
+
     def execute(self, context):
         export_settings = {
             "is_collection": True,
@@ -111,7 +117,7 @@ class ExportBlenderCollection(Operator, ExportHelper):
             "export_selected": True,
             "export_as_collection": True,
             "collection_name": context.selected_ids[0].name, #XXX Assumes only one collection is selected
-            "backlink": False
+            "backlink": self.backlink
         }
         if bpy.app.version >= (2, 93, 0):
             export_settings["mark_asset"] = self.mark_asset
