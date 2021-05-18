@@ -147,9 +147,34 @@ class ExportBlenderNodes(Operator, ExportHelper):
         default=True
     )
 
+    export_as_group: BoolProperty(
+        name="Export as Node Group",
+        description="Bundle selected objects in a node group before exporting",
+        default=False
+    )
+
+    group_name: StringProperty(
+        name="Group Name",
+        description="Name of exported node group",
+        default="export_group"
+    )
+
+    def draw(self, context):
+        layout = self.layout
+        col = layout.column()
+
+        col.prop(self, "export_selected")
+        if self.export_selected:
+            box = col.box()
+            box.prop(self, "export_as_group")
+            if self.export_as_group:
+                box.prop(self, "group_name", icon="NODETREE", icon_only=True)
+
     def execute(self, context):
         export_settings = {
             "filepath": self.filepath,
-            "export_selected": self.export_selected
+            "export_selected": self.export_selected,
+            "export_as_group": self.export_as_group,
+            "group_name": self.group_name
         }
         return export_blend_nodes(context, export_settings)

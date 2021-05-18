@@ -54,11 +54,11 @@ This add-on also provides the ability to export selected nodes to a separate `.b
 ## Known issues
 
   * Currently, when enabling the *Mark as Asset* option, the text size of menu items in Blender's UI gets much larger. This is related to [T83896](https://developer.blender.org/T83896) and should [hopefully] be fixed prior to the release of Blender 2.93.
-  * If you try to export a node that is within an existing node group, this add-on doesn't quite function as expected. Currently, it clears out just the other nodes within that group, but nothing in the group's parent tree.
   * If an object is part of multiple collections, that information is retained on export. However, if you backlink and make a proxy, the proxy object doesn't know about other collections.
+  * When exporting nodes as a node group, you will likely need to manage input and output sockets yourself.
+  * If you try to export a node that is within an existing node group, this add-on doesn't quite function as expected. Currently, it clears out just the other nodes within that group, but nothing in the group's parent tree.
 
 ## Wishlist
 
   * Add support for exporting multiple collections
-  * Add support for grouping nodes when exporting (much like the *Export as Collection* option for objects)
-  * Add support for backlinking node groups if the preceding wishlist item is successfully implemented
+  * Add support for backlinking node groups

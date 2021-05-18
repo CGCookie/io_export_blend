@@ -96,9 +96,18 @@ def export_blend_nodes(context, export_settings):
     current_nodetree = context.active_node.id_data
     nodes = []
     if export_settings["export_selected"]:
-        for node in current_nodetree.nodes:#context.selected_nodes:
+        # Remove any nodes that aren't selected
+        for node in current_nodetree.nodes:
             if not node.select:
                 current_nodetree.nodes.remove(node)
+
+    if export_settings["export_as_group"]:
+        # Create a node group with the selected nodes
+        #XXX Would be nice to do this without operators, but that seems non-trivial
+        bpy.ops.node.group_make()
+        bpy.ops.node.group_edit(exit=True)
+        context.active_node.name = export_settings["group_name"]
+        context.active_node.node_tree.name = export_settings["group_name"]
 
     # Create a new empty scene to hold export objects
     export_scene = bpy.data.scenes.new("blend_export")
