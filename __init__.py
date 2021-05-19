@@ -54,9 +54,11 @@ def menu_func_export(self, context):
 
 def menu_func_export_nodes(self, context):
     self.layout.operator_context = "INVOKE_DEFAULT"
-    op = self.layout.operator(ExportBlenderNodes.bl_idname, text="Export to .blend")
-    if context.active_node.id_data.type == 'COMPOSITING':
-        op.is_compositor = True
+    #XXX Disabling for Compositor nodes until bugfix for T88402
+    if context.active_node.id_data.type != 'COMPOSITING':
+        op = self.layout.operator(ExportBlenderNodes.bl_idname, text="Export to .blend")
+    #if context.active_node.id_data.type == 'COMPOSITING':
+    #    op.is_compositor = True
 
 
 def register():

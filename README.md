@@ -58,8 +58,8 @@ This add-on also provides the ability to export selected nodes to a separate `.b
   * If an object is part of multiple collections, that information is retained on export. However, if you backlink and make a proxy, the proxy object doesn't know about other collections.
   * When exporting nodes as a node group, you will likely need to manage input and output sockets yourself.
   * If you try to export a node that is within an existing node group, this add-on doesn't quite function as expected. Currently, it clears out just the other nodes within that group, but nothing in the group's parent tree.
-  * Compositor nodes currently only export selected and are forced to be exported as a group.
-  * Exporting Compositor nodes crashes as per [T88402](https://developer.blender.org/T88402). Hopefully that's fixed before 2.93's release.
+  * Exporting Compositor nodes is not currently supported. Blender crashes as per [T88402](https://developer.blender.org/T88402). Hopefully that's fixed before 2.93's release.
+  * When enabled, Compositor nodes will likely only export selected and be forced to be exported as a group.
 
 ## Wishlist
 
