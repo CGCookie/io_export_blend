@@ -1,6 +1,6 @@
 import bpy
 from bpy_extras.io_utils import ExportHelper
-from bpy.props import StringProperty, BoolProperty, EnumProperty
+from bpy.props import StringProperty, BoolProperty
 from bpy.types import Operator
 
 # Local imports
@@ -151,7 +151,7 @@ class ExportBlenderNodes(Operator, ExportHelper):
     # Operator properties
     export_selected: BoolProperty(
         name="Export Selected",
-        description="Export selected nodes to .blend file. Otherwise, export the active node tree.",
+        description="Export selected nodes to .blend file. Otherwise, export the active node tree",
         default=True
     )
 
