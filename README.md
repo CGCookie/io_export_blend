@@ -64,4 +64,3 @@ This add-on also provides the ability to export selected nodes to a separate `.b
 ## Wishlist
 
   * Add support for exporting multiple collections
-  * Add support for backlinking node groups
