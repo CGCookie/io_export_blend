@@ -53,6 +53,7 @@ This add-on also provides the ability to export selected nodes to a separate `.b
 
 ## Known issues
 
+  * You *really* should be in Object mode for any of this to work properly
   * Currently, when enabling the *Mark as Asset* option, the text size of menu items in Blender's UI gets much larger. This is related to [T83896](https://developer.blender.org/T83896) and should [hopefully] be fixed prior to the release of Blender 2.93.
   * If an object is part of multiple collections, that information is retained on export. However, if you backlink and make a proxy, the proxy object doesn't know about other collections.
   * When exporting nodes as a node group, you will likely need to manage input and output sockets yourself.

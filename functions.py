@@ -93,15 +93,16 @@ def export_blend_objects(context, export_settings):
 
 def export_blend_nodes(context, export_settings):
     print("Exporting nodes to .blend...")
+
     current_nodetree = context.active_node.id_data
-    nodes = []
     if export_settings["export_selected"]:
         # Remove any nodes that aren't selected
         for node in current_nodetree.nodes:
             if not node.select:
                 current_nodetree.nodes.remove(node)
 
-    if export_settings["export_as_group"]:
+    #XXX Right now forcing compositor nodes to export as group
+    if export_settings["export_as_group"] or current_nodetree.type == 'COMPOSITING':
         # Create a node group with the selected nodes
         #XXX Would be nice to do this without operators, but that seems non-trivial
         bpy.ops.node.group_make()
@@ -109,12 +110,48 @@ def export_blend_nodes(context, export_settings):
         context.active_node.name = export_settings["group_name"]
         context.active_node.node_tree.name = export_settings["group_name"]
 
-    # Create a new empty scene to hold export objects
-    export_scene = bpy.data.scenes.new("blend_export")
-
     # Set the current node tree to have a fake user
     current_nodetree.use_fake_user = True
 
+    # Create a new empty scene to hold export objects
+    export_scene = bpy.data.scenes.new("blend_export")
+    if current_nodetree.type == 'COMPOSITING':
+        bpy.data.scenes["blend_export"].use_nodes = True
+        #XXX Right now forcing compositor nodes to export as group
+        temp_group = bpy.data.scenes["blend_export"].node_tree.nodes.new("CompositorNodeGroup")
+        temp_group.node_tree = bpy.data.node_groups[export_settings["group_name"]]
+
     actually_export(export_scene, export_settings["filepath"])
+
+    # If backlinks are activated, replace each object with a link to the exported one
+    if export_settings["export_selected"] and export_settings["export_as_group"] and export_settings["backlink"]:
+        linkpath = export_settings["filepath"] + "\\NodeTree\\" + export_settings["group_name"]
+        linkdir = export_settings["filepath"] + "\\NodeTree\\"
+        linkcol = export_settings["group_name"]
+
+        # Remove nodes from scene so they can be replaced
+        current_nodetree = context.active_node.id_data # Blender needs to be reminded where it is
+        for node in current_nodetree.nodes:
+            if node.select:
+                current_nodetree.nodes.remove(node)
+
+        # Do the actual replacing thing, first link the exported group
+        bpy.ops.wm.link(
+            filepath=linkpath,
+            directory=linkdir,
+            filename=linkcol
+        )
+
+        # Add the node group to the tree
+        #XXX Assumes unique group names
+        linked_nodegroup = bpy.data.node_groups[linkcol]
+        # Get node group type
+        #XXX Assuming here that the node group type for adding is it's self-reported type + "NodeGroup". May break for custom nodes
+        if linked_nodegroup.type == 'COMPOSITING':
+            nodetree_type = "CompositorNodeGroup"
+        else:
+            nodetree_type = linked_nodegroup.type.title() + "NodeGroup"
+        replacement_group = current_nodetree.nodes.new(nodetree_type)
+        replacement_group.node_tree = linked_nodegroup
 
     return {'FINISHED'}

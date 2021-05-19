@@ -52,6 +52,10 @@ class ExportBlenderObjects(Operator, ExportHelper):
         default=False
     )
 
+    @classmethod
+    def poll(cls, context):
+        return context.mode == 'OBJECT' # Because funky things happen when not in Object Mode
+
     def draw(self, context):
         layout = self.layout
         col = layout.column()
@@ -110,6 +114,10 @@ class ExportBlenderCollection(Operator, ExportHelper):
         default=False
     )
 
+    @classmethod
+    def poll(cls, context):
+        return context.mode == 'OBJECT' # Because funky things happen when not in Object Mode
+
     def execute(self, context):
         export_settings = {
             "is_collection": True,
@@ -159,6 +167,16 @@ class ExportBlenderNodes(Operator, ExportHelper):
         default="export_group"
     )
 
+    backlink: BoolProperty(
+        name="Backlink",
+        description="Replace selection with a link to the exported node group",
+        default=False
+    )
+
+    @classmethod
+    def poll(cls, context):
+        return context.mode == 'OBJECT' # Because funky things happen when not in Object Mode
+
     def draw(self, context):
         layout = self.layout
         col = layout.column()
@@ -169,12 +187,14 @@ class ExportBlenderNodes(Operator, ExportHelper):
             box.prop(self, "export_as_group")
             if self.export_as_group:
                 box.prop(self, "group_name", icon="NODETREE", icon_only=True)
+                box.prop(self, "backlink")
 
     def execute(self, context):
         export_settings = {
             "filepath": self.filepath,
             "export_selected": self.export_selected,
             "export_as_group": self.export_as_group,
-            "group_name": self.group_name
+            "group_name": self.group_name,
+            "backlink": self.backlink
         }
         return export_blend_nodes(context, export_settings)
