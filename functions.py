@@ -116,9 +116,12 @@ def export_blend_nodes(context, export_settings):
     # Create a new empty scene to hold export objects
     export_scene = bpy.data.scenes.new("blend_export")
     if current_nodetree.type == 'COMPOSITING':
-        bpy.data.scenes["blend_export"].use_nodes = True
+        export_scene.use_nodes = True
+        # Remove default Render Layers and Output node
+        for node in export_scene.node_tree.nodes:
+            export_scene.node_tree.nodes.remove(node)
         #XXX Right now forcing compositor nodes to export as group
-        temp_group = bpy.data.scenes["blend_export"].node_tree.nodes.new("CompositorNodeGroup")
+        temp_group = export_scene.node_tree.nodes.new("CompositorNodeGroup")
         temp_group.node_tree = bpy.data.node_groups[export_settings["group_name"]]
 
     actually_export(export_scene, export_settings["filepath"])
