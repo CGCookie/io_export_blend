@@ -167,6 +167,12 @@ class ExportBlenderNodes(Operator, ExportHelper):
         default="export_group"
     )
 
+    is_compositor: BoolProperty(
+        name="Is Compositor",
+        description="Should be True if exporting Compositor nodes",
+        default=False
+    )
+
     backlink: BoolProperty(
         name="Backlink",
         description="Replace selection with a link to the exported node group",
@@ -180,14 +186,22 @@ class ExportBlenderNodes(Operator, ExportHelper):
     def draw(self, context):
         layout = self.layout
         col = layout.column()
+        if self.is_compositor:
+            self.export_selected = True
+            self.export_as_group = True
+            col.enabled = False
 
         col.prop(self, "export_selected")
         if self.export_selected:
             box = col.box()
             box.prop(self, "export_as_group")
-            if self.export_as_group:
+            if self.export_as_group and not self.is_compositor:
                 box.prop(self, "group_name", icon="NODETREE", icon_only=True)
                 box.prop(self, "backlink")
+        if self.is_compositor:
+            col = layout.column()
+            col.prop(self, "group_name", icon="NODETREE", icon_only=True)
+            col.prop(self, "backlink")
 
     def execute(self, context):
         export_settings = {

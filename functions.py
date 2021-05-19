@@ -2,6 +2,8 @@ import bpy
 
 
 def actually_export(export_scene, filepath):
+    # Set the export scene as the active scene
+    bpy.context.window.scene = export_scene
     # Remove all other scenes
     for scn in bpy.data.scenes:
         if scn != export_scene:
