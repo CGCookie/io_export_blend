@@ -39,7 +39,7 @@ class ExportBlenderObjects(Operator, ExportHelper):
         default="export_collection"
     )
 
-    if bpy.app.version >= (2, 93, 0):
+    if bpy.app.version > (2, 93, 0):
         mark_asset: BoolProperty(
             name="Mark as Asset",
             description="Mark selected objects as assets for visibility in the Asset Browser",
@@ -66,7 +66,7 @@ class ExportBlenderObjects(Operator, ExportHelper):
             box.prop(self, "export_as_collection")
             if self.export_as_collection:
                 box.prop(self, "collection_name", icon="COLLECTION_NEW", icon_only=True)
-            if bpy.app.version >= (2, 93, 0):
+            if bpy.app.version > (2, 93, 0):
                 box.prop(self, "mark_asset")
             box.prop(self, "backlink")
 
@@ -79,7 +79,7 @@ class ExportBlenderObjects(Operator, ExportHelper):
             "collection_name": self.collection_name,
             "backlink": self.backlink
         }
-        if bpy.app.version >= (2, 93, 0):
+        if bpy.app.version > (2, 93, 0):
             export_settings["mark_asset"] = self.mark_asset
         else:
             export_settings["mark_asset"] = False
@@ -101,7 +101,7 @@ class ExportBlenderCollection(Operator, ExportHelper):
     )
 
     # Operator properties
-    if bpy.app.version >= (2, 93, 0):
+    if bpy.app.version > (2, 93, 0):
         mark_asset: BoolProperty(
             name="Mark as Asset",
             description="Mark selected collection as an asset for visibility in the Asset Browser",
@@ -127,7 +127,7 @@ class ExportBlenderCollection(Operator, ExportHelper):
             "collection_name": context.selected_ids[0].name, #XXX Assumes only one collection is selected
             "backlink": self.backlink
         }
-        if bpy.app.version >= (2, 93, 0):
+        if bpy.app.version > (2, 93, 0):
             export_settings["mark_asset"] = self.mark_asset
         else:
             export_settings["mark_asset"] = False

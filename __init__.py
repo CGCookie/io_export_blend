@@ -21,7 +21,7 @@
 bl_info = {
     "name": "Export .blend",
     "author": "Jason van Gumster (Fweeb)",
-    "version": (0, 9),
+    "version": (1, 0),
     "blender": (2, 83, 0),
     "location": "File > Export > Blender (.blend)/Outliner > Context Menu > Export to .blend",
     "description": "Exports all or some datablocks to a separate .blend file",
