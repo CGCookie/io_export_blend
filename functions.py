@@ -9,6 +9,9 @@ def actually_export(export_scene, filepath):
         if scn != export_scene:
             bpy.data.scenes.remove(scn)
 
+    # Go through and remove all the orphans that've been created
+    bpy.data.orphans_purge(do_recursive = True)
+
     # Save data to desired path
     bpy.ops.wm.save_as_mainfile(filepath=filepath, copy=True)
 
