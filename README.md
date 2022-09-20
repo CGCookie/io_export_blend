@@ -1,4 +1,4 @@
-![export to blend](../img/export_to_blend.jpg)
+![export to blend](./img/export_to_blend.jpg)
 
 Support development by purchasing Export to Blend on the **[Blender Market](https://blendermarket.com/products/export-to-blend)**.
 
