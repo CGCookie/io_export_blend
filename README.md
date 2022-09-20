@@ -11,6 +11,6 @@ Export to Blend is a simple add-on that creates a new blend file based on your s
   * Optionally create a collection of your selected objects prior to export
   * Optionally mark your exported objects or collection as an Asset for the Asset Browser when exporting 
   * Optionally "backlink" your exported objects or collection, replacing assets in your current file with a library link to your exported assets
-  * Export selected nodes to `.blend` file from an Node Editor
+  * Export selected nodes to `.blend` file from a Node Editor
 
 **[Read the full documentation.](https://cgcookie.github.io/io_export_blend/)**
