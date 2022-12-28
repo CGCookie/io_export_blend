@@ -139,6 +139,12 @@ class ExportBlenderCollection(Operator, ExportHelper):
         default=False
     )
 
+    clean_fakes: BoolProperty(
+        name="Clean Fake Users",
+        description="Set all items in the new scene to not use fake users before purging orphans.",
+        default=False
+    )
+
     @classmethod
     def poll(cls, context):
         return context.mode == 'OBJECT' # Because funky things happen when not in Object Mode
@@ -150,7 +156,8 @@ class ExportBlenderCollection(Operator, ExportHelper):
             "export_selected": True,
             "export_as_collection": True,
             "collection_name": context.selected_ids[0].name, #XXX Assumes only one collection is selected
-            "backlink": self.backlink
+            "backlink": self.backlink,
+            "clean_fakes": self.clean_fakes
         }
         if bpy.app.version > (2, 93, 0):
             export_settings["mark_asset"] = self.mark_asset
