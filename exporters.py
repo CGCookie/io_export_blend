@@ -11,12 +11,12 @@ Created by Jason van Gumster
     modify it under the terms of the GNU General Public License
     as published by the Free Software Foundation; either version 3
     of the License, or (at your option) any later version.
-   
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-   
+
     You should have received a copy of the GNU General Public License
     along with this program; if not, see <https://www.gnu.org/licenses/>.
 
@@ -30,6 +30,7 @@ from bpy.types import Operator
 
 # Local imports
 from .functions import export_blend_objects, export_blend_nodes
+from .utilities import mode_toggle
 
 
 class ExportBlenderObjects(Operator, ExportHelper):
@@ -77,10 +78,6 @@ class ExportBlenderObjects(Operator, ExportHelper):
         default=False
     )
 
-    @classmethod
-    def poll(cls, context):
-        return context.mode == 'OBJECT' # Because funky things happen when not in Object Mode
-
     def draw(self, context):
         layout = self.layout
         col = layout.column()
@@ -104,13 +101,20 @@ class ExportBlenderObjects(Operator, ExportHelper):
             "collection_name": self.collection_name,
             "backlink": self.backlink
         }
+
         if bpy.app.version > (2, 93, 0):
             export_settings["mark_asset"] = self.mark_asset
         else:
             export_settings["mark_asset"] = False
 
-        return export_blend_objects(context, export_settings)
+        # switching to object mode prevents unexpected behavior
+        prev_mode = mode_toggle(context, 'OBJECT')
 
+        export_blend_objects(context, export_settings)
+
+        mode_toggle(context, prev_mode)
+
+        return {'FINISHED'}
 
 class ExportBlenderCollection(Operator, ExportHelper):
     """Export a selected collection to a separate .blend file"""
@@ -157,7 +161,14 @@ class ExportBlenderCollection(Operator, ExportHelper):
         else:
             export_settings["mark_asset"] = False
 
-        return export_blend_objects(context, export_settings)
+        # switching to object mode prevents unexpected behavior
+        prev_mode = mode_toggle(context, 'OBJECT')
+
+        export_blend_objects(context, export_settings)
+
+        mode_toggle(context, prev_mode)
+
+        return {'FINISHED'}
 
 
 class ExportBlenderNodes(Operator, ExportHelper):
@@ -236,4 +247,12 @@ class ExportBlenderNodes(Operator, ExportHelper):
             "group_name": self.group_name,
             "backlink": self.backlink
         }
-        return export_blend_nodes(context, export_settings)
+
+        # switching to object mode prevents unexpected behavior
+        prev_mode = mode_toggle(context, 'OBJECT')
+
+        export_blend_nodes(context, export_settings)
+
+        mode_toggle(context, prev_mode)
+
+        return {'FINISHED'}
