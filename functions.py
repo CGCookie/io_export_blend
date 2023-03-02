@@ -70,12 +70,19 @@ def export_blend_objects(context, export_settings):
     if export_settings["export_selected"] and export_settings["export_as_collection"]:
         if export_settings["is_collection"] == False:
             export_collection = bpy.data.collections.new(export_settings["collection_name"])
+            if export_settings["clean_fakes"]:
+                for key in bpy.data.user_map():
+                    key.use_fake_user = False
         else:
             export_collection = bpy.data.collections[export_settings["collection_name"]]
         export_scene.collection.children.link(export_collection)
 
     # Add objects from list to scene
     for ob in objects:
+        if export_settings["clean_fakes"]:
+            for key in bpy.data.user_map():
+                key.use_fake_user = False
+
         export_scene.collection.objects.link(ob)
         if export_settings["export_selected"]:
             if export_settings["export_as_collection"] and export_settings["is_collection"] == False:
