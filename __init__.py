@@ -54,6 +54,7 @@ class export_blend_preferences(AddonPreferences):
     filepath: StringProperty(
         name = 'File Path',
         description = 'Where the export will be saved by default. Use // at the beginning to make it relative to the current blend file',
+        subtype="DIR_PATH",
         default =  get_default_path()
     )
     mark_asset: BoolProperty(
