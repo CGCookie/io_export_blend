@@ -43,18 +43,12 @@ from bpy.props import StringProperty, BoolProperty
 
 # Local imports
 from .exporters import ExportBlenderObjects, ExportBlenderCollection, ExportBlenderNodes
+from .utilities import get_default_path
 
 
 # Preferences
 class export_blend_preferences(AddonPreferences):
     bl_idname = __name__
-
-    def get_default_path():
-        asset_libraries = bpy.context.preferences.filepaths.asset_libraries
-        if asset_libraries and asset_libraries[0].path:
-            return asset_libraries[0].path
-        else:
-            return "//assets/"
 
     # General Defaults
     filepath: StringProperty(
