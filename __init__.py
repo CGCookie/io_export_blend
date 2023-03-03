@@ -49,11 +49,18 @@ from .exporters import ExportBlenderObjects, ExportBlenderCollection, ExportBlen
 class export_blend_preferences(AddonPreferences):
     bl_idname = __name__
 
+    def get_default_path():
+        asset_libraries = bpy.context.preferences.filepaths.asset_libraries
+        if asset_libraries and asset_libraries[0].path:
+            return asset_libraries[0].path
+        else:
+            return "//assets/"
+
     # General Defaults
     filepath: StringProperty(
         name = 'File Path',
         description = 'Where the export will be saved by default. Use // at the beginning to make it relative to the current blend file',
-        default = "//assets/"
+        default =  get_default_path()
     )
     mark_asset: BoolProperty(
         name="Mark as Asset",
