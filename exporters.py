@@ -85,10 +85,6 @@ class ExportBlenderObjects(Operator, ExportHelper):
         default=False
     )
 
-    @classmethod
-    def poll(cls, context):
-        return context.mode == 'OBJECT' # Because funky things happen when not in Object Mode
-
     def invoke(self, context, event):
         preferences = context.preferences.addons[__package__].preferences
         self.directory = preferences.filepath
@@ -172,10 +168,6 @@ class ExportBlenderCollection(Operator, ExportHelper):
         description="Replace selection with a link to the exported object",
         default=False
     )
-
-    @classmethod
-    def poll(cls, context):
-        return context.mode == 'OBJECT' # Because funky things happen when not in Object Mode
 
     def invoke(self, context, event):
         preferences = context.preferences.addons[__package__].preferences
@@ -262,10 +254,6 @@ class ExportBlenderNodes(Operator, ExportHelper):
         description="Replace selection with a link to the exported node group",
         default=False
     )
-
-    @classmethod
-    def poll(cls, context):
-        return context.mode == 'OBJECT' # Because funky things happen when not in Object Mode
 
     def invoke(self, context, event):
         preferences = context.preferences.addons[__package__].preferences
