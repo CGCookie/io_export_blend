@@ -97,6 +97,18 @@ class ExportBlenderObjects(Operator, ExportHelper):
         context.window_manager.fileselect_add(self)
         return {'RUNNING_MODAL'}
 
+    def invoke(self, context, event):
+        preferences = context.preferences.addons[__package__].preferences
+        self.directory = preferences.filepath
+        self.filename = context.active_object.name
+        self.export_as_collection = preferences.export_as_collection
+        self.backlink = preferences.backlink
+        self.collection_name = context.active_object.name
+        if bpy.app.version > (2, 93, 0):
+            self.mark_asset = preferences.mark_asset
+        context.window_manager.fileselect_add(self)
+        return {'RUNNING_MODAL'}
+
     def draw(self, context):
         layout = self.layout
         col = layout.column()
@@ -168,6 +180,16 @@ class ExportBlenderCollection(Operator, ExportHelper):
         description="Replace selection with a link to the exported object",
         default=False
     )
+
+    def invoke(self, context, event):
+        preferences = context.preferences.addons[__package__].preferences
+        self.directory = preferences.filepath
+        self.filename = context.collection.name
+        self.backlink = preferences.backlink
+        if bpy.app.version > (2, 93, 0):
+            self.mark_asset = preferences.mark_asset
+        context.window_manager.fileselect_add(self)
+        return {'RUNNING_MODAL'}
 
     def invoke(self, context, event):
         preferences = context.preferences.addons[__package__].preferences
@@ -254,6 +276,16 @@ class ExportBlenderNodes(Operator, ExportHelper):
         description="Replace selection with a link to the exported node group",
         default=False
     )
+
+    def invoke(self, context, event):
+        preferences = context.preferences.addons[__package__].preferences
+        self.directory = preferences.filepath
+        self.export_as_group = preferences.export_as_group
+        self.backlink = preferences.backlink
+        if bpy.app.version > (2, 93, 0):
+            self.mark_asset = preferences.mark_asset
+        context.window_manager.fileselect_add(self)
+        return {'RUNNING_MODAL'}
 
     def invoke(self, context, event):
         preferences = context.preferences.addons[__package__].preferences

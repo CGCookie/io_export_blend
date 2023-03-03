@@ -95,6 +95,54 @@ class export_blend_preferences(AddonPreferences):
         node_prefs.prop(self, 'export_as_group')
 
 
+# Preferences
+class export_blend_preferences(AddonPreferences):
+    bl_idname = __name__
+
+    # General Defaults
+    filepath: StringProperty(
+        name = 'File Path',
+        description = 'Where the export will be saved by default. Use // at the beginning to make it relative to the current blend file',
+        default = "//assets/"
+    )
+    mark_asset: BoolProperty(
+        name="Mark as Asset",
+        description="Mark selected objects as assets for visibility in the Asset Browser",
+        default=False
+    )
+    backlink: BoolProperty(
+        name="Backlink",
+        description="Replace selection with a link to the exported object",
+        default=False
+    )
+
+    # Object Defaults
+    export_as_collection: BoolProperty(
+        name="Export as Collection",
+        description="Bundle selected objects in a collection before exporting",
+        default=False
+    )
+
+    # Node Defaults
+    export_as_group: BoolProperty(
+        name="Export as Node Group",
+        description="Bundle selected objects in a node group before exporting",
+        default=False
+    )
+
+    def draw(self, context):
+        layout = self.layout
+        layout.prop(self, 'filepath')
+        general_prefs = layout.column(heading='General Defaults:')
+        if bpy.app.version > (2, 93, 0):
+          general_prefs.prop(self, 'mark_asset')
+        general_prefs.prop(self, 'backlink')
+        obj_prefs = layout.column(heading='Object Defaults:')
+        obj_prefs.prop(self, 'export_as_collection')
+        node_prefs = layout.column(heading='Node Defaults:')
+        node_prefs.prop(self, 'export_as_group')
+
+
 # UI
 def menu_func_export(self, context):
     if self.bl_label == "Export":
