@@ -24,7 +24,7 @@ Created by Jason van Gumster
 
 
 import bpy
-
+import time
 
 def actually_export(export_scene, filepath):
     # Set the export scene as the active scene
@@ -82,10 +82,16 @@ def export_blend_objects(context, export_settings):
                 export_collection.objects.link(ob)
             elif export_settings["export_as_collection"] == False and export_settings["mark_asset"]:
                 ob.asset_mark()
+                ob.asset_generate_preview()
 
     # If exporting as a collection and marking as an asset, only mark the collection as an asset
     if export_settings["export_selected"] and export_settings["export_as_collection"] and export_settings["mark_asset"]:
         export_collection.asset_mark()
+        export_collection.asset_generate_preview()
+    
+    # Temporary hack to give the preview time to generate.
+    # Ideally, we would wait until preview.image_size[0] != 0
+    time.sleep(0.5)
 
     actually_export(export_scene, export_settings["filepath"])
 
