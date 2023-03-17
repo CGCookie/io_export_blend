@@ -46,6 +46,14 @@ class ExportBlenderObjects(Operator, ExportHelper):
         maxlen=255,  # Max internal buffer length, longer would be clamped.
     )
 
+    directory: StringProperty(
+        default="//"
+    )
+
+    filename: StringProperty(
+        default=""
+    )
+
     # Operator properties
     export_selected: BoolProperty(
         name="Export Selected",
@@ -65,18 +73,41 @@ class ExportBlenderObjects(Operator, ExportHelper):
         default="export_collection"
     )
 
-    if bpy.app.version > (2, 93, 0):
-        mark_asset: BoolProperty(
-            name="Mark as Asset",
-            description="Mark selected objects as assets for visibility in the Asset Browser",
-            default=False
-        )
+    mark_asset: BoolProperty(
+        name="Mark as Asset",
+        description="Mark selected objects as assets for visibility in the Asset Browser",
+        default=False
+    )
 
     backlink: BoolProperty(
         name="Backlink",
         description="Replace selection with a link to the exported object",
         default=False
     )
+
+    def invoke(self, context, event):
+        preferences = context.preferences.addons[__package__].preferences
+        self.directory = preferences.filepath
+        self.filename = context.active_object.name
+        self.export_as_collection = preferences.export_as_collection
+        self.backlink = preferences.backlink
+        self.collection_name = context.active_object.name
+        if bpy.app.version > (2, 93, 0):
+            self.mark_asset = preferences.mark_asset
+        context.window_manager.fileselect_add(self)
+        return {'RUNNING_MODAL'}
+
+    def invoke(self, context, event):
+        preferences = context.preferences.addons[__package__].preferences
+        self.directory = preferences.filepath
+        self.filename = context.active_object.name
+        self.export_as_collection = preferences.export_as_collection
+        self.backlink = preferences.backlink
+        self.collection_name = context.active_object.name
+        if bpy.app.version > (2, 93, 0):
+            self.mark_asset = preferences.mark_asset
+        context.window_manager.fileselect_add(self)
+        return {'RUNNING_MODAL'}
 
     def draw(self, context):
         layout = self.layout
@@ -129,13 +160,20 @@ class ExportBlenderCollection(Operator, ExportHelper):
         maxlen=255,  # Max internal buffer length, longer would be clamped.
     )
 
+    directory: StringProperty(
+        default="//"
+    )
+
+    filename: StringProperty(
+        default=""
+    )
+
     # Operator properties
-    if bpy.app.version > (2, 93, 0):
-        mark_asset: BoolProperty(
-            name="Mark as Asset",
-            description="Mark selected collection as an asset for visibility in the Asset Browser",
-            default=False
-        )
+    mark_asset: BoolProperty(
+        name="Mark as Asset",
+        description="Mark selected collection as an asset for visibility in the Asset Browser",
+        default=False
+    )
 
     backlink: BoolProperty(
         name="Backlink",
@@ -143,9 +181,25 @@ class ExportBlenderCollection(Operator, ExportHelper):
         default=False
     )
 
-    @classmethod
-    def poll(cls, context):
-        return context.mode == 'OBJECT' # Because funky things happen when not in Object Mode
+    def invoke(self, context, event):
+        preferences = context.preferences.addons[__package__].preferences
+        self.directory = preferences.filepath
+        self.filename = context.collection.name
+        self.backlink = preferences.backlink
+        if bpy.app.version > (2, 93, 0):
+            self.mark_asset = preferences.mark_asset
+        context.window_manager.fileselect_add(self)
+        return {'RUNNING_MODAL'}
+
+    def invoke(self, context, event):
+        preferences = context.preferences.addons[__package__].preferences
+        self.directory = preferences.filepath
+        self.filename = context.collection.name
+        self.backlink = preferences.backlink
+        if bpy.app.version > (2, 93, 0):
+            self.mark_asset = preferences.mark_asset
+        context.window_manager.fileselect_add(self)
+        return {'RUNNING_MODAL'}
 
     def execute(self, context):
         export_settings = {
@@ -184,6 +238,14 @@ class ExportBlenderNodes(Operator, ExportHelper):
         maxlen=255,  # Max internal buffer length, longer would be clamped.
     )
 
+    directory: StringProperty(
+        default="//"
+    )
+
+    filename: StringProperty(
+        default=""
+    )
+
     # Operator properties
     export_selected: BoolProperty(
         name="Export Selected",
@@ -215,9 +277,25 @@ class ExportBlenderNodes(Operator, ExportHelper):
         default=False
     )
 
-    @classmethod
-    def poll(cls, context):
-        return context.mode == 'OBJECT' # Because funky things happen when not in Object Mode
+    def invoke(self, context, event):
+        preferences = context.preferences.addons[__package__].preferences
+        self.directory = preferences.filepath
+        self.export_as_group = preferences.export_as_group
+        self.backlink = preferences.backlink
+        if bpy.app.version > (2, 93, 0):
+            self.mark_asset = preferences.mark_asset
+        context.window_manager.fileselect_add(self)
+        return {'RUNNING_MODAL'}
+
+    def invoke(self, context, event):
+        preferences = context.preferences.addons[__package__].preferences
+        self.directory = preferences.filepath
+        self.export_as_group = preferences.export_as_group
+        self.backlink = preferences.backlink
+        if bpy.app.version > (2, 93, 0):
+            self.mark_asset = preferences.mark_asset
+        context.window_manager.fileselect_add(self)
+        return {'RUNNING_MODAL'}
 
     def draw(self, context):
         layout = self.layout

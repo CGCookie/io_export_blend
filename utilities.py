@@ -1,5 +1,12 @@
 import bpy
 
+def get_default_path():
+    asset_libraries = bpy.context.preferences.filepaths.asset_libraries
+    if asset_libraries and asset_libraries[0].path:
+        return asset_libraries[0].path
+    else:
+        return "//assets/"
+
 def mode_toggle(context, switch_to):
     prev_mode = context.mode
     switch = {
