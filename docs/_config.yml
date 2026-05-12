@@ -1,3 +1,4 @@
-remote_theme: rundocs/jekyll-rtd-theme
-
+remote_theme: just-the-docs/just-the-docs
 title: Export to Blend
+favicon_ico: "..assets/orange_turbine-mark-full_color-envelope.ico"
+show_downloads: false
