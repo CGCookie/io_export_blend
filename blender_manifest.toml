@@ -1,0 +1,37 @@
+schema_version = "1.0.0"
+
+id = "io_export_blend"
+version = "1.0.3"
+name = "Export .blend"
+tagline = "Exports all or some datablocks to a separate .blend file"
+maintainer = "Jason van Gumster (Orange Turbine) <orangeturbine@cgcookie.com>"
+# Supported types: "add-on", "theme"
+type = "add-on"
+
+# Optional: add-ons can list which resources they will require:
+# * "files" (for access of any filesystem operations)
+# * "network" (for internet access)
+# * "camera" (to capture photos and videos)
+# * "microphone" (to capture audio)
+# permissions = []
+
+# Optional link to documentation, support, source files, etc
+website = "https://cgcookie.github.io/io_export_blend/"
+
+# Optional list defined by Blender and server, see:
+# https://docs.blender.org/manual/en/dev/extensions/tags.html
+tags = ["Import-Export"]
+
+blender_version_min = "2.8.3"
+# Optional: maximum supported Blender version
+# blender_version_max = "5.1.0"
+
+# License conforming to https://spdx.org/licenses/ (use "SPDX: prefix)
+# https://docs.blender.org/manual/en/dev/extensions/licenses.html
+license = [
+  "SPDX:GPL-2.0-or-later",
+]
+# Optional: required by some licenses.
+copyright = [
+  "2021 Jason van Gumster, Autotroph Inc"
+]
