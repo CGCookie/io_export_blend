@@ -98,8 +98,8 @@ def export_blend_objects(context, export_settings):
     # If backlinks are activated, replace each object with a link to the exported one
     if export_settings["export_selected"] and export_settings["backlink"]:
         if export_settings["export_as_collection"]:
-            linkpath = export_settings["filepath"] + "\\Collection\\" + export_settings["collection_name"]
-            linkdir = export_settings["filepath"] + "\\Collection\\"
+            linkpath = export_settings["filepath"] + "/Collection/" + export_settings["collection_name"]
+            linkdir = export_settings["filepath"] + "/Collection/"
             linkcol = export_settings["collection_name"]
 
             # Remove objects from scene so they can be replaced
@@ -114,8 +114,8 @@ def export_blend_objects(context, export_settings):
             )
         else:
             for obname in object_names:
-                linkpath = export_settings["filepath"] + "\\Object\\" + obname
-                linkdir = export_settings["filepath"] + "\\Object\\"
+                linkpath = export_settings["filepath"] + "/Object/" + obname
+                linkdir = export_settings["filepath"] + "/Object/"
                 linkob = obname
                 bpy.data.objects.remove(bpy.data.objects[obname], do_unlink=True)
                 bpy.ops.wm.link(
@@ -162,8 +162,8 @@ def export_blend_nodes(context, export_settings):
 
     # If backlinks are activated, replace each object with a link to the exported one
     if export_settings["export_selected"] and export_settings["export_as_group"] and export_settings["backlink"]:
-        linkpath = export_settings["filepath"] + "\\NodeTree\\" + export_settings["group_name"]
-        linkdir = export_settings["filepath"] + "\\NodeTree\\"
+        linkpath = export_settings["filepath"] + "/NodeTree/" + export_settings["group_name"]
+        linkdir = export_settings["filepath"] + "/NodeTree/"
         linkcol = export_settings["group_name"]
 
         # Remove nodes from scene so they can be replaced
